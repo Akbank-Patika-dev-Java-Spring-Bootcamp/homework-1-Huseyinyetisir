@@ -6,11 +6,8 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-
 @Builder
 public class UpdatePresidentRequest {
-
-    String id;
 
     String president;
 }

@@ -36,9 +36,9 @@ public class CountryController {
     public ResponseEntity<List<CountryDto>> getAllCountry(){
         return ResponseEntity.ok(countryService.getAllCountry());
     }
-    @PutMapping
-    public ResponseEntity<CountryDto> updatePresident(@RequestBody UpdatePresidentRequest updatePresidentRequest){
-        return ResponseEntity.ok(countryService.updatePresident(updatePresidentRequest));
+    @PutMapping("{id}")
+    public ResponseEntity<CountryDto> updatePresident(@PathVariable String id,@RequestBody UpdatePresidentRequest updatePresidentRequest){
+        return ResponseEntity.ok(countryService.updatePresident(id, updatePresidentRequest));
     }
 
 

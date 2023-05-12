@@ -27,17 +27,17 @@ public class CountryapiApplication implements CommandLineRunner{
 		Country c1 = Country.builder()
 				.id("1234567")
 				.name("Almanya")
-				.president("Obama")
+				.president("Olaf Scholz")
 				.build();
 		Country c2 = Country.builder()
 				.id("2234567")
 				.name("Türkiye")
-				.president("Erdoğan")
+				.president("Recep Tayyib Erdoğan")
 				.build();
 		Country c3 = Country.builder()
 				.id("3234567")
 				.name("İngiltere")
-				.president("Merkel")
+				.president("Boris Johnson")
 				.build();
 		countryRepository.saveAll(Arrays.asList(c1, c2, c3));
 

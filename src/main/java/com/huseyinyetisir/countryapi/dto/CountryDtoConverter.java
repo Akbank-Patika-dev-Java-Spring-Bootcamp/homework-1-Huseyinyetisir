@@ -11,7 +11,7 @@ public class CountryDtoConverter {
         CountryDto countryDto = new CountryDto();
         countryDto.setId(country.getId());
         countryDto.setName(country.getName());
-        countryDto.setPresident(countryDto.getPresident());
+        countryDto.setPresident(country.getPresident());
 
         return countryDto;
     }
