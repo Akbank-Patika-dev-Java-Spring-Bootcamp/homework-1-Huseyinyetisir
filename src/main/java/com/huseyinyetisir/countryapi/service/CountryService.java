@@ -2,28 +2,32 @@ package com.huseyinyetisir.countryapi.service;
 
 
 import com.huseyinyetisir.countryapi.dto.CountryDto;
-import com.huseyinyetisir.countryapi.dto.CountryDtoConverter;
 import com.huseyinyetisir.countryapi.dto.CreateCountryRequest;
 import com.huseyinyetisir.countryapi.dto.UpdatePresidentRequest;
+import com.huseyinyetisir.countryapi.mapper.CountryMapper;
 import com.huseyinyetisir.countryapi.model.Country;
 import com.huseyinyetisir.countryapi.repository.CountryRepository;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@RequiredArgsConstructor
 @Service
 public class CountryService {
 
     private final CountryRepository countryRepository;
 
-    private final CountryDtoConverter countryDtoConverter;
+    private  final CountryMapper countryMapper;
 
-    public CountryService(CountryRepository countryRepository, CountryDtoConverter countryDtoConverter) {
-        this.countryRepository = countryRepository;
-        this.countryDtoConverter = countryDtoConverter;
-    }
+//    public CountryService(CountryRepository countryRepository,CountryMapper countryMapper) {
+//        this.countryRepository = countryRepository;
+//        this.countryMapper = countryMapper;
+//    }
 
     public CountryDto createCountry(CreateCountryRequest createCountryRequest) {
         Country country = new Country();
@@ -32,7 +36,8 @@ public class CountryService {
         country.setPresident(createCountryRequest.getPresident());
 
         countryRepository.save(country);
-        return countryDtoConverter.convert(country);
+        return countryMapper.toCountryDto(country);
+
     }
 
     public List<CountryDto> getAllCountry(){
@@ -40,13 +45,25 @@ public class CountryService {
         List<CountryDto> countryDtoList = new ArrayList<>();
 
         for (Country country:countryList){
-            countryDtoList.add(countryDtoConverter.convert(country));
+            countryDtoList.add(countryMapper.toCountryDto(country));
         }
         return countryDtoList;
     }
     public CountryDto getCountryById(String id) {
-        Optional<Country> userOptional = countryRepository.findById(id);
-        return userOptional.map(countryDtoConverter::convert).orElse(new CountryDto());
+        Optional<Country> countryOptional = countryRepository.findById(id);
+
+        if (countryOptional.isPresent()) {
+            Country country = countryOptional.get();
+
+            if (countryMapper != null) {
+                return countryMapper.toCountryDto(country);
+            } else {
+                throw new IllegalStateException("Country is null");
+            }
+        } else {
+            return new CountryDto();
+        }
+
     }
 
     public CountryDto updatePresident(UpdatePresidentRequest updatePresidentrequest) {
@@ -58,8 +75,7 @@ public class CountryService {
             countryRepository.save(country);
 
         });
-        return countryOptional.map(countryDtoConverter::convert).orElse(new CountryDto());
+        return countryOptional.map(countryMapper::toCountryDto).orElse(new CountryDto());
     }
-
 
 }

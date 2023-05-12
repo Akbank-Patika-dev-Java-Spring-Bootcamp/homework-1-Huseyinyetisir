@@ -8,9 +8,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.util.Arrays;
 
-
 @SpringBootApplication
-public class CountryapiApplication implements CommandLineRunner {
+public class CountryapiApplication implements CommandLineRunner{
 
 	private final CountryRepository countryRepository;
 
@@ -22,12 +21,13 @@ public class CountryapiApplication implements CommandLineRunner {
 		SpringApplication.run(CountryapiApplication.class, args);
 	}
 
+
 	@Override
 	public void run(String... args) throws Exception {
 		Country c1 = Country.builder()
 				.id("1234567")
 				.name("Almanya")
-				.president("Ev")
+				.president("Obama")
 				.build();
 		Country c2 = Country.builder()
 				.id("2234567")
@@ -36,8 +36,8 @@ public class CountryapiApplication implements CommandLineRunner {
 				.build();
 		Country c3 = Country.builder()
 				.id("3234567")
-				.name("Sefa")
-				.president("İngiltere")
+				.name("İngiltere")
+				.president("Merkel")
 				.build();
 		countryRepository.saveAll(Arrays.asList(c1, c2, c3));
 
